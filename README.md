@@ -15,3 +15,9 @@ The stocks in every manual bucket is equal weighted (not market cap.).
 Returns Line chart. 1 = start value = 100% of original investment. 
 0.8 = 80% of original investment = -20% YTD. etc.
 
+### earningsNotification
+
+A script that notifies me when one of my holdings has an earnings call in the upcoming week.
+It uses a telegram bot and runs on a Raspberry Pi.
+Schedule it to run on mondays 3:00AM via python scheduler or bash/batch.
+Adjust tickers at very bottom.
