@@ -21,3 +21,8 @@ A script that notifies me when one of my holdings has an earnings call in the up
 It uses a telegram bot and runs on a Raspberry Pi.
 Schedule it to run on mondays 3:00AM via python scheduler or bash/batch.
 Adjust tickers at very bottom.
+
+### moonStocksCorrelation
+
+Some lunatic (pun intended) on a forum claimed there was a correlation between the stock market and moon phases. Of course it is not true.
+The moon is way to predictable and obvious for a self-fullfilling prophecy. It gets arbitraged away. You can try out different indices or timeframes.
