@@ -5,6 +5,7 @@ A collection of my small scripts (or code snippets only) used to analyze the sto
 ## Usage
 
 Many of these Scripts could be used to feed Data into Boosting/Bagging algorithms for algo trading.
+I mainly use them for manually analyzing macro movements in the market for sharing on reddit, twitter etc.
 
 ## Overview
 
@@ -40,4 +41,9 @@ Bezeichnenderweise heißt der August-Vollmond Erntemond
 ```
 Especially regarding the standard deviation of a normal day on the stock market (and considering different indices) this is bs.
 Idk why I wasted my time with this.
+
+### correlationYTD
+
+Analyzing the correlation of custom buckets of stocks with equal weight. Normally you'd expect gold or bonds a negative correlation with $SPY.
+In some market environments a clear value <-> growth or global titans <-> small caps rotations can be identified.
 
