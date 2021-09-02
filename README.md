@@ -47,3 +47,15 @@ Idk why I wasted my time with this.
 Analyzing the correlation of custom buckets of stocks with equal weight. Normally you'd expect gold or bonds a negative correlation with $SPY.
 In some market environments a clear value <-> growth or global titans <-> small caps rotations can be identified.
 
+### mswSYNTH
+
+Inspired by https://wsbsynth.com/. Reads comments from the Mauerstrassenwetten Subreddit via gTTS.
+You need to install mpg321 on your computer.
+Linux:
+```
+apt install mpg123
+```
+MacOs:
+```
+brew install mpg123
+```
