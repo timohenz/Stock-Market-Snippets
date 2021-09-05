@@ -59,3 +59,10 @@ MacOs:
 ```
 brew install mpg123
 ```
+
+### appleSeptemberEvent
+
+Apple Stock around the yearly Apple September Event.
+Brosciensce says that it's a Buy-the-rumor-Sell-the-news event or that the stock moons after surprisingly good new tech.
+That's hard to verify since there are few years for sound statistics (and 2015 Apple is a very different company from 2020 Apple).
+Thus yearly line chart +-6 trading days around the event.
