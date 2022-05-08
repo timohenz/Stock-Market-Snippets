@@ -13,6 +13,7 @@ reddit = praw.Reddit(client_id='',
                      username='',
                      password='')
 
+
 def __speak__(comment):
     if comment.author != 'AutoModerator':
         text = comment.body
@@ -23,31 +24,39 @@ def __speak__(comment):
         os.remove("msw-comment.mp3")
         sleep(1)
 
-#all comments
+
+# all comments
 def __readcomment__(comment_queue):
     # todo save first comment to not play it again
     while comment_queue:
         print('queue: ' + str(len(comment_queue)))
         comment = comment_queue.pop(0)
         __speak__(comment)
-        if(len(comment.replies) > 0):
+        if (len(comment.replies) > 0):
             print('comments: ' + str(len(comment.replies)))
             __readreplies__(comment.replies)
             print('comments up')
 
-#through replies recursive
+
+# through replies recursive
 def __readreplies__(replies):
     for reply in replies:
         __speak__(reply)
-        if(len(reply.replies) > 0):
+        if (len(reply.replies) > 0):
             __readreplies__(reply.replies)
 
-sub = reddit.subreddit("mauerstrassenwetten")
-while True:
-    for submissions in sub.hot(limit=4):
-        if submissions.stickied:
-            if ('Tägliche Diskussion ' in submissions.title) or ('Pläne ' in submissions.title):
-                submissions.comment_sort = 'new'
-                submissions.comments.replace_more(limit=20)
-                comment_queue = submissions.comments[:]
-                __readcomment__(comment_queue)
+
+def main():
+    sub = reddit.subreddit("mauerstrassenwetten")
+    while True:
+        for submissions in sub.hot(limit=4):
+            if submissions.stickied:
+                if ('Tägliche Diskussion ' in submissions.title) or ('Pläne ' in submissions.title):
+                    submissions.comment_sort = 'new'
+                    submissions.comments.replace_more(limit=20)
+                    comment_queue = submissions.comments[:]
+                    __readcomment__(comment_queue)
+
+
+if __name__ == "__main__":
+    main()

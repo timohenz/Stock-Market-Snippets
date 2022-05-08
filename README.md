@@ -51,6 +51,7 @@ In some market environments a clear value <-> growth or global titans <-> small 
 
 Inspired by https://wsbsynth.com/. Reads comments from the Mauerstrassenwetten Subreddit via gTTS.
 You need to install mpg321 on your computer.
+
 Linux:
 ```
 apt install mpg123
@@ -66,3 +67,11 @@ Apple Stock around the yearly Apple September Event.
 Brosciensce says that it's a Buy-the-rumor-Sell-the-news event or that the stock moons after surprisingly good new tech.
 That's hard to verify since there are few years for sound statistics (and 2015 Apple is a very different company from 2020 Apple).
 Thus yearly line chart +-6 trading days around the event.
+
+### sankey
+
+Analyse a companies earnings income sheet. Specify ticker and quaterly/annual at the top.
+
+### proportions
+
+Visualize the proportions of Market Cap, Annual Revenue, Annual Operating Income, Liabilities and Assets.

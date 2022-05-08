@@ -32,47 +32,52 @@ def __get_phase__(day):
         return "error"
 
 
-stock = yfinance.Ticker("^GSPC")#"^GSPC"#^DJI#SPY
-hist = stock.history(period="max")#10Y
-print(len(hist))
+def main():
+    stock = yfinance.Ticker("^GSPC")  # "^GSPC"#^DJI#SPY
+    hist = stock.history(period="max")  # 10Y
+    print(len(hist))
 
-# sum of percent change
-sumfullmoon = 0
-sumnewmoon = 0
-sumascend = 0
-sumdescend = 0
-# counters
-numfullmoon = 0
-numnewmoon = 0
-numascend = 0
-numdescend = 0
+    # sum of percent change
+    sumfullmoon = 0
+    sumnewmoon = 0
+    sumascend = 0
+    sumdescend = 0
+    # counters
+    numfullmoon = 0
+    numnewmoon = 0
+    numascend = 0
+    numdescend = 0
 
-for i, row in hist.iterrows():
-    dayopen = hist.loc[i, 'Close']
-    nextdayopen = hist.shift(-1).loc[i, 'Close']
-    change = 100 * ((nextdayopen - dayopen) / dayopen)
-    phase = __get_phase__(i.to_pydatetime())
+    for i, row in hist.iterrows():
+        dayopen = hist.loc[i, 'Close']
+        nextdayopen = hist.shift(-1).loc[i, 'Close']
+        change = 100 * ((nextdayopen - dayopen) / dayopen)
+        phase = __get_phase__(i.to_pydatetime())
 
-    if not numpy.isnan(change):
-        if phase == "new moon":
-            sumnewmoon += change
-            numnewmoon += 1
-        if phase == "full moon":
-            sumfullmoon += change
-            numfullmoon += 1
-        if phase == "ascendant":
-            sumascend += change
-            numascend += 1
-        if phase == "descendant":
-            sumdescend += change
-            numdescend += 1
+        if not numpy.isnan(change):
+            if phase == "new moon":
+                sumnewmoon += change
+                numnewmoon += 1
+            if phase == "full moon":
+                sumfullmoon += change
+                numfullmoon += 1
+            if phase == "ascendant":
+                sumascend += change
+                numascend += 1
+            if phase == "descendant":
+                sumdescend += change
+                numdescend += 1
 
-fig, ax = plt.subplots()
-phases = ['New Moon', 'Full Moon', 'Ascendant', 'Descendant']
-avg = [sumnewmoon / numnewmoon, sumfullmoon / numfullmoon, sumascend / numascend, sumdescend / numdescend]
-ax.bar(phases, avg)
-ind = numpy.arange(4)
-ax.set_xticks(ind)
-ax.set_xticklabels(phases)
-plt.title("Average Daily Stock Market Gains per Moon Phase")
-plt.savefig("moonStocksCorrelation.png")
+    fig, ax = plt.subplots()
+    phases = ['New Moon', 'Full Moon', 'Ascendant', 'Descendant']
+    avg = [sumnewmoon / numnewmoon, sumfullmoon / numfullmoon, sumascend / numascend, sumdescend / numdescend]
+    ax.bar(phases, avg)
+    ind = numpy.arange(4)
+    ax.set_xticks(ind)
+    ax.set_xticklabels(phases)
+    plt.title("Average Daily Stock Market Gains per Moon Phase")
+    plt.savefig("moonStocksCorrelation.png")
+
+
+if __name__ == "__main__":
+    main()

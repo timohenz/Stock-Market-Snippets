@@ -3,70 +3,76 @@ from scipy.stats import pearsonr
 import yfinance
 import matplotlib.pyplot as plt
 
-tickers = [["SPY"],
-           ["AAPL", "MSFT", "GOOG", "AMZN"],
-           ["MT", "CLF"],
-           ["PG", "JNJ", "WMT", "PEP", "KO", "CAT", "MMM", "JPM"],
-           ["NVDA", "AMD", "QCOM"],
-           ["BND", "18MW.DE", "HYG"],
-           ["GLD"],
-           ["IWM", "IWM", "ARKK", "ARKG"]]
-groupnames = ["SPY", "Big Tech", "Stahlthese", "Value", "Chips", "Bonds", "Gold", "Growth\nNebenwerte"]
 
-results = []
+def main():
+    tickers = [["SPY"],
+               ["AAPL", "MSFT", "GOOG", "AMZN"],
+               ["MT", "CLF"],
+               ["PG", "JNJ", "WMT", "PEP", "KO", "CAT", "MMM", "JPM"],
+               ["NVDA", "AMD", "QCOM"],
+               ["BND", "18MW.DE", "HYG"],
+               ["GLD"],
+               ["IWM", "IWM", "ARKK", "ARKG"]]
+    groupnames = ["SPY", "Big Tech", "Stahlthese", "Value", "Chips", "Bonds", "Gold", "Growth\nNebenwerte"]
 
-for group in tickers:
-    groupresult = []
+    results = []
 
-    closings = []
-    dividends = []
-    dates = []
-    for ticker in group:
-        stock = yfinance.Ticker(ticker)
+    for group in tickers:
+        groupresult = []
 
-        hist = stock.history(period="YTD")
-        closings = hist["Close"].tolist()
-        dividends = hist["Dividends"].tolist()
+        closings = []
+        dividends = []
+        dates = []
+        for ticker in group:
+            stock = yfinance.Ticker(ticker)
 
-        if dates != [] and dates != list(hist.index.values):
-            print("unterschiedliche datuemer!")
-        dates = list(hist.index.values)
+            hist = stock.history(period="YTD")
+            closings = hist["Close"].tolist()
+            dividends = hist["Dividends"].tolist()
 
-        # adjust for dividend
-        i = 0
-        for dividend in dividends:
-            if dividend > 0:
-                j = 0
-                for closing in closings:
-                    if j >= i:
-                        closings[j] = closing + dividend
-                    j = j + 1
-            i = i + 1
+            if dates != [] and dates != list(hist.index.values):
+                print("unterschiedliche datuemer!")
+            dates = list(hist.index.values)
 
-        i = 0
-        factor = closings[0]
-        for closing in closings:
-            # everyone starts form 0 for equal weight - also number of securities in basket
-            closings[i] = (closings[i] / factor) / len(group)
-            i = i + 1
-        if not groupresult:
-            groupresult = closings
-        else:
-            for k in range(len(closings)):
-                groupresult[k] = groupresult[k] + closings[k]
-    results.append(groupresult)
+            # adjust for dividend
+            i = 0
+            for dividend in dividends:
+                if dividend > 0:
+                    j = 0
+                    for closing in closings:
+                        if j >= i:
+                            closings[j] = closing + dividend
+                        j = j + 1
+                i = i + 1
 
-# prepare data for bar chart
-data = []
-for r in results:
-    corr, _ = pearsonr(results[0], r)  # numpy.correlate(results[0], r)[0] corrcoef
-    data.append(corr)
+            i = 0
+            factor = closings[0]
+            for closing in closings:
+                # everyone starts form 0 for equal weight - also number of securities in basket
+                closings[i] = (closings[i] / factor) / len(group)
+                i = i + 1
+            if not groupresult:
+                groupresult = closings
+            else:
+                for k in range(len(closings)):
+                    groupresult[k] = groupresult[k] + closings[k]
+        results.append(groupresult)
 
-# matplotlib bar chart
-fig, ax = plt.subplots()
-ind = numpy.arange(len(groupnames))
-plt.bar(ind, data, label=groupnames)
-ax.set_xticks(ind)
-ax.set_xticklabels(groupnames, rotation=30)
-plt.title("Correlation with S&P500")
-plt.savefig("correlation.png", bbox_inches="tight")
+    # prepare data for bar chart
+    data = []
+    for r in results:
+        corr, _ = pearsonr(results[0], r)  # numpy.correlate(results[0], r)[0] corrcoef
+        data.append(corr)
+
+    # matplotlib bar chart
+    fig, ax = plt.subplots()
+    ind = numpy.arange(len(groupnames))
+    plt.bar(ind, data, label=groupnames)
+    ax.set_xticks(ind)
+    ax.set_xticklabels(groupnames, rotation=30)
+    plt.title("Correlation with S&P500")
+    plt.savefig("correlation.png", bbox_inches="tight")
+
+
+if __name__ == "__main__":
+    main()
